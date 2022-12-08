@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: rcp_backend
+    build: ./
+    ports:
+      - 3001:3001
+    platform: linux/x86_64
+    working_dir: /app-backend
+    volumes:
+      - ./src:/app-backend/src
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - APP_PORT=3001
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=password
+      - JWT_SECRET=jwt_secret
+    healthcheck:
+      test: [ "CMD", "lsof", "-t", "-i:3001" ]
+      timeout: 10s
+      retries: 5
+
+  db:
+    image: postgres:15.1
+    container_name: rcp_db
+    platform: linux/x86_64
+    ports:
+      - 3002:5432
+    user: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    restart: 'always'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      timeout: 10s
+      retries: 5
