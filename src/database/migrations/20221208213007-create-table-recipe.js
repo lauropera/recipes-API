@@ -23,11 +23,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       youtube_link: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       thumbnail: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
     });

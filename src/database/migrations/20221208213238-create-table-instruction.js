@@ -12,7 +12,7 @@ module.exports = {
       },
       text: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       recipe_id: {
         allowNull: false,
