@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import authRoutes from './routes/authRoutes';
 
 class App {
   public app: express.Express;
@@ -26,6 +27,8 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+
+    this.app.use('/auth', authRoutes);
   }
 
   public start(PORT: string | number): void {
