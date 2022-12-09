@@ -18,11 +18,6 @@ class AuthService {
     }
   }
 
-  async getUserRole(email: string): Promise<string> {
-    const user = (await this._repository.findOne({ where: { email } })) as User;
-    return user.role;
-  }
-
   async register(credentials: IUserCreation): Promise<void> {
     validator<IUserCreation>(
       credentials,
@@ -61,6 +56,11 @@ class AuthService {
 
     const token = this._tokenUtils.generate(user);
     return token;
+  }
+
+  async getUserRole(email: string): Promise<string> {
+    const user = (await this._repository.findOne({ where: { email } })) as User;
+    return user.role;
   }
 }
 
