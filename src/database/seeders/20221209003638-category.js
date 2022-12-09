@@ -7,7 +7,6 @@ module.exports = {
       { name: 'Bolos e Tortas Doces' },
       { name: 'Peixes e Frutos do Mar' },
       { name: 'Bebidas' },
-      { name: 'Lanches' },
     ]);
   },
 

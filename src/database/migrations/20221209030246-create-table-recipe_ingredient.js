@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable('recipe_ingredient', {
       amount: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       ingredient_id: {
         allowNull: false,
