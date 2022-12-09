@@ -3,13 +3,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('recipe_ingredient', {
-      ingredient_id: {
+    await queryInterface.createTable('recipe_steps', {
+      id: {
         allowNull: false,
-        references: {
-          model: 'ingredient',
-          key: 'id',
-        },
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      step_number: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       recipe_id: {
@@ -20,7 +22,7 @@ module.exports = {
         },
         type: Sequelize.INTEGER,
       },
-      measure: {
+      instruction: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -28,6 +30,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('recipe_ingredient');
+    await queryInterface.dropTable('recipe_steps');
   },
 };

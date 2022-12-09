@@ -22,11 +22,19 @@ module.exports = {
         },
         type: Sequelize.INTEGER,
       },
-      youtube_link: {
+      preparation_time: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      servings: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      video_url: {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      thumbnail: {
+      image_url: {
         allowNull: true,
         type: Sequelize.STRING,
       },
