@@ -1,14 +1,11 @@
 import { STRING, DATE, INTEGER, Model } from 'sequelize';
 import db from '.';
-import Ingredient from './Ingredient';
 import RecipeTag from './RecipeTag';
-import RecipeIngredient from './RecipeIngredient';
 import Tag from './Tag';
 import RecipeStep from './RecipeStep';
 import Category from './Category';
 import User from './User';
 import UserFavoriteRecipe from './UserFavoriteRecipe';
-import Unit from './Unit';
 
 interface IRecipe {
   id: number;
