@@ -6,9 +6,10 @@ interface IUser {
   name: string;
   email: string;
   password: string;
+  roleId: number;
 }
 
-type IUserCreation = Omit<IUser, 'id'>;
+type IUserCreation = Omit<IUser, 'id | roleId'>;
 
 type IUserReturned = Omit<IUser, 'password'>;
 
@@ -17,6 +18,7 @@ class User extends Model<IUser, IUserCreation> {
   declare name: string;
   declare email: string;
   declare password: string;
+  declare roleId: number;
 }
 
 User.init(
@@ -30,10 +32,12 @@ User.init(
     name: STRING,
     email: STRING,
     password: STRING,
+    roleId: INTEGER,
   },
   {
     sequelize: db,
     timestamps: false,
+    underscored: true,
     tableName: 'users',
     modelName: 'user',
   },
