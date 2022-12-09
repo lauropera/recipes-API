@@ -4,14 +4,14 @@
 module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert('unit', [
-      { name: 'Grama', abbreviation: 'g' },
-      { name: 'Kilograma', abbreviation: 'kg' },
-      { name: 'Mililitro', abbreviation: 'ml' },
-      { name: 'Litro', abbreviation: 'l' },
-      { name: 'Colher', abbreviation: 'sp' },
-      { name: 'Xícara', abbreviation: 'cup' },
-      { name: 'Colher de sopa', abbreviation: 'tbsp' },
-      { name: 'Colher de chá', abbreviation: 'tsp' },
+      { name: 'grama', abbreviation: 'g' },
+      { name: 'kilograma', abbreviation: 'kg' },
+      { name: 'mililitro', abbreviation: 'ml' },
+      { name: 'litro', abbreviation: 'l' },
+      { name: 'colher', abbreviation: 'sp' },
+      { name: 'xícara', abbreviation: 'cup' },
+      { name: 'colher de sopa', abbreviation: 'tbsp' },
+      { name: 'colher de chá', abbreviation: 'tsp' },
     ]);
   },
 

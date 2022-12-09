@@ -6,6 +6,8 @@ module.exports = {
     await queryInterface.bulkInsert('tag', [
       { name: 'Salmão' },
       { name: 'Chocolate quente' },
+      { name: 'Vegetariana' },
+      { name: 'Vegana' },
     ]);
   },
 

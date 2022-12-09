@@ -12,6 +12,10 @@ module.exports = {
         recipe_id: 3,
         tag_id: 2,
       },
+      {
+        recipe_id: 3,
+        tag_id: 3,
+      },
     ]);
   },
 

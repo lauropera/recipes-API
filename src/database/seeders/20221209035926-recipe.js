@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('recipe', [
       {
         name: 'Bolo de cenoura',
@@ -13,8 +13,7 @@ module.exports = {
         video_url: '',
         image_url:
           'https://img.itdg.com.br/tdg/images/recipes/000/000/023/323619/323619_original.jpg',
-        vegan: false,
-        vegetarian: false,
+        created_at: Sequelize.fn('now'),
       },
       {
         name: 'Salmão ao champignon',
@@ -25,8 +24,7 @@ module.exports = {
         video_url: '',
         image_url:
           'https://img.itdg.com.br/tdg/images/recipes/000/000/111/55103/55103_original.jpg',
-        vegan: false,
-        vegetarian: false,
+        created_at: Sequelize.fn('now'),
       },
       {
         name: 'Chocolate quente cremoso',
@@ -37,8 +35,7 @@ module.exports = {
         video_url: '',
         image_url:
           'https://img.itdg.com.br/tdg/images/recipes/000/130/871/321194/321194_original.jpg',
-        vegan: false,
-        vegetarian: true,
+        created_at: Sequelize.fn('now'),
       },
     ]);
   },

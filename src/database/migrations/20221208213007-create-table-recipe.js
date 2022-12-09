@@ -46,13 +46,8 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      vegan: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-      },
-      vegetarian: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
+      created_at: {
+        type: Sequelize.DATEONLY,
       },
     });
   },
