@@ -10,7 +10,7 @@ class AuthController {
 
     this.register = this.register.bind(this);
     this.login = this.login.bind(this);
-    this.listUser = this.listUser.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   async register(req: Request, res: Response): Promise<void> {
