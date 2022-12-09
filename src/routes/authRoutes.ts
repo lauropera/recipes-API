@@ -7,6 +7,6 @@ const router = Router();
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.get('/validate', authMiddleware, authController.listUser);
+router.get('/validate', authMiddleware, authController.validate);
 
 export default router;

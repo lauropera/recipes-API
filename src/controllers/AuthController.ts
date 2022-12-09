@@ -25,7 +25,7 @@ class AuthController {
     res.status(StatusCodes.OK).json({ token });
   }
 
-  async listUser(_req: Request, res: Response): Promise<void> {
+  async validate(_req: Request, res: Response): Promise<void> {
     const {
       data: { email },
     } = res.locals.user;
