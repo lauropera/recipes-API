@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface) {
-    await queryInterface.bulkInsert('unit', [
+    await queryInterface.bulkInsert('units', [
       { name: 'grama', abbreviation: 'g' },
       { name: 'kilograma', abbreviation: 'kg' },
       { name: 'mililitro', abbreviation: 'ml' },
@@ -16,6 +16,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.bulkDelete('unit', null, {});
+    await queryInterface.bulkDelete('units', null, {});
   },
 };

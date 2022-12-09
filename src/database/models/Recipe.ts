@@ -47,8 +47,8 @@ Recipe.init(
   {
     sequelize: db,
     underscored: true,
-    modelName: 'recipe',
     tableName: 'recipes',
+    modelName: 'recipe',
   },
 );
 

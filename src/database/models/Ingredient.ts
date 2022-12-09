@@ -25,6 +25,9 @@ Ingredient.init(
   },
   {
     sequelize: db,
+    timestamps: false,
+    tableName: 'ingredients',
+    modelName: 'ingredient',
   },
 );
 

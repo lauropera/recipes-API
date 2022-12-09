@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('recipe_ingredient', {
+    await queryInterface.createTable('recipe_ingredients', {
       amount: {
         allowNull: false,
         type: Sequelize.DOUBLE,
@@ -11,7 +11,7 @@ module.exports = {
       ingredient_id: {
         allowNull: false,
         references: {
-          model: 'ingredient',
+          model: 'ingredients',
           key: 'id',
         },
         type: Sequelize.INTEGER,
@@ -19,7 +19,7 @@ module.exports = {
       unit_id: {
         allowNull: true,
         references: {
-          model: 'unit',
+          model: 'units',
           key: 'id',
         },
         type: Sequelize.INTEGER,
@@ -27,7 +27,7 @@ module.exports = {
       recipe_id: {
         allowNull: false,
         references: {
-          model: 'recipe',
+          model: 'recipes',
           key: 'id',
         },
         type: Sequelize.INTEGER,
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('recipe_ingredient');
+    await queryInterface.dropTable('recipe_ingredients');
   },
 };

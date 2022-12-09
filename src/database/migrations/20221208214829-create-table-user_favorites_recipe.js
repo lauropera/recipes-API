@@ -3,11 +3,11 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user_favorite_recipe', {
+    await queryInterface.createTable('user_favorites_recipe', {
       user_id: {
         allowNull: false,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id',
         },
         type: Sequelize.INTEGER,
@@ -15,7 +15,7 @@ module.exports = {
       recipe_id: {
         allowNull: false,
         references: {
-          model: 'recipe',
+          model: 'recipes',
           key: 'id',
         },
         type: Sequelize.INTEGER,
@@ -24,6 +24,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('user_favorite_recipe');
+    await queryInterface.dropTable('user_favorites_recipe');
   },
 };
