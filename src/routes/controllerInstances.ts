@@ -1,5 +1,7 @@
-import { AuthController } from '../controllers';
+import { AuthController, RecipeController } from '../controllers';
 
 const authController = new AuthController();
 
-export { authController };
+const recipeController = new RecipeController();
+
+export { authController, recipeController };
