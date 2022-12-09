@@ -1,6 +1,5 @@
 import { STRING, INTEGER, Model } from 'sequelize';
 import db from '.';
-import User from './User';
 
 interface IRole {
   id: number;
@@ -25,13 +24,11 @@ Role.init(
   {
     sequelize: db,
     timestamps: false,
+    underscored: true,
     tableName: 'roles',
     modelName: 'role',
   },
 );
-
-Role.hasMany(User, { foreignKey: 'role_id', as: 'users' });
-User.hasOne(Role, { foreignKey: 'role_id', as: 'role' });
 
 export default Role;
 export { IRole };

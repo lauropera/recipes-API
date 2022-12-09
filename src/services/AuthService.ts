@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { compareSync, hashSync } from 'bcryptjs';
 import HttpException from '../utils/HttpException';
-import User, { IUser, IUserCreation } from '../database/models/User';
-import ILogin from '../interfaces/ILogin';
+import User, { IUserCreation } from '../database/models/User';
 import { LoginSchema, RegisterSchema } from './utils/validations/schemas';
+import ILogin from '../interfaces/ILogin';
 import validator from './utils/validations/validator';
 import Token from './utils/token/TokenUtils';
 
@@ -42,7 +42,9 @@ class AuthService {
 
     const user = await this._repository.findOne({ where: { email } });
 
-    if (!user) throw new HttpException(StatusCodes.NOT_FOUND, 'User not found');
+    if (!user) {
+      throw new HttpException(StatusCodes.NOT_FOUND, 'User not found');
+    }
 
     const passwordValidation = compareSync(password, user.password);
 
@@ -56,8 +58,6 @@ class AuthService {
     const token = this._tokenUtils.generate(user);
     return token;
   }
-
-  // async getUser(authToken: string): Promise<IUser> {}
 }
 
 export default AuthService;

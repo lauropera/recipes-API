@@ -1,16 +1,18 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { AuthService } from '../services';
+import { AuthService, RoleService } from '../services';
 
 class AuthController {
   private _service: AuthService;
+  private _roleService: RoleService;
 
   constructor() {
     this._service = new AuthService();
+    this._roleService = new RoleService();
 
     this.register = this.register.bind(this);
     this.login = this.login.bind(this);
-    // this.listUser = this.listUser.bind(this);
+    this.listUser = this.listUser.bind(this);
   }
 
   async register(req: Request, res: Response): Promise<void> {
@@ -25,11 +27,14 @@ class AuthController {
     res.status(StatusCodes.OK).json({ token });
   }
 
-  // async listUser(req: Request, res: Response): Promise<void> {
-  //   const auth = req.headers.authorization;
-  //   const user = await this._service.getUser(auth);
-  //   res.status(StatusCodes.OK).json(user);
-  // }
+  async listUser(_req: Request, res: Response): Promise<void> {
+    const {
+      data: { email },
+    } = res.locals.user;
+
+    const role = await this._roleService.getUserRole(email);
+    res.status(StatusCodes.OK).json({ role });
+  }
 }
 
 export default AuthController;
