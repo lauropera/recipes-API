@@ -25,6 +25,9 @@ Category.init(
   },
   {
     sequelize: db,
+    timestamps: false,
+    tableName: 'categories',
+    modelName: 'category',
   },
 );
 
