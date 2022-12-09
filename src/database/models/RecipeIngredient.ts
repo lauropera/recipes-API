@@ -1,4 +1,4 @@
-import { INTEGER, Model } from 'sequelize';
+import { DOUBLE, INTEGER, Model } from 'sequelize';
 import db from '.';
 
 interface IRecipeIngredient {
@@ -22,7 +22,7 @@ IRecipeIngredientCreation
 
 RecipeIngredient.init(
   {
-    amount: INTEGER,
+    amount: DOUBLE,
     ingredientId: INTEGER,
     unitId: INTEGER,
     recipeId: INTEGER,
