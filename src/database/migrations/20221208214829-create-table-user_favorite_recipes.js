@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user_favorites_recipe', {
+    await queryInterface.createTable('user_favorite_recipe', {
       user_id: {
         allowNull: false,
         references: {
@@ -24,6 +24,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('user_favorites_recipe');
+    await queryInterface.dropTable('user_favorite_recipe');
   },
 };
