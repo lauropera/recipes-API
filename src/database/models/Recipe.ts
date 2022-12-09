@@ -8,6 +8,7 @@ import RecipeStep from './RecipeStep';
 import Category from './Category';
 import User from './User';
 import UserFavoriteRecipe from './UserFavoriteRecipe';
+import Unit from './Unit';
 
 interface IRecipe {
   id: number;
@@ -55,44 +56,38 @@ Recipe.init(
   {
     sequelize: db,
     underscored: true,
+    updatedAt: false,
     tableName: 'recipes',
     modelName: 'recipe',
   },
 );
 
-Recipe.belongsTo(User, { foreignKey: 'chef_id', as: 'chef' });
-User.hasMany(Recipe, { foreignKey: 'chef_id', as: 'recipes' });
+Recipe.belongsTo(User, { foreignKey: 'chefId', as: 'chef' });
+User.hasMany(Recipe, { foreignKey: 'chefId', as: 'userRecipes' });
 
-Recipe.hasOne(Category, { foreignKey: 'category_id', as: 'category' });
-Category.hasMany(Recipe, { foreignKey: 'category_id', as: 'recipes' });
+Recipe.hasOne(Category, { foreignKey: 'categoryId', as: 'category' });
+Category.hasMany(Recipe, { foreignKey: 'categoryId', as: 'recipes' });
 
-Recipe.hasMany(RecipeStep, { foreignKey: 'recipe_id', as: 'recipeSteps' });
-RecipeStep.belongsTo(Recipe, { foreignKey: 'recipe_id' });
+Recipe.hasMany(RecipeStep, { foreignKey: 'recipeId', as: 'recipeSteps' });
+RecipeStep.belongsTo(Recipe, { foreignKey: 'recipeId' });
 
 Recipe.belongsToMany(Tag, {
   as: 'tags',
-  foreignKey: 'recipe_id',
-  otherKey: 'tag_id',
+  foreignKey: 'recipeId',
+  otherKey: 'tagId',
   through: RecipeTag,
 });
 Tag.belongsToMany(Recipe, {
   as: 'recipes',
-  foreignKey: 'recipe_id',
-  otherKey: 'tag_id',
+  foreignKey: 'recipeId',
+  otherKey: 'tagId',
   through: RecipeTag,
-});
-
-Recipe.belongsToMany(Ingredient, {
-  as: 'ingredients',
-  foreignKey: 'recipe_id',
-  otherKey: 'ingredient_id',
-  through: RecipeIngredient,
 });
 
 Recipe.belongsToMany(User, {
   as: 'favoriteRecipes',
-  foreignKey: 'recipe_id',
-  otherKey: 'user_id',
+  foreignKey: 'recipeId',
+  otherKey: 'userId',
   through: UserFavoriteRecipe,
 });
 
