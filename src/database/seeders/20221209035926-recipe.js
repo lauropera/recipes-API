@@ -8,6 +8,7 @@ module.exports = {
         name: 'Bolo de cenoura',
         preparation_time: 40,
         servings: 8,
+        chef_id: 1,
         category_id: 1,
         video_url: '',
         image_url:
@@ -19,6 +20,7 @@ module.exports = {
         name: 'Salmão ao champignon',
         preparation_time: 60,
         servings: 4,
+        chef_id: 2,
         category_id: 2,
         video_url: '',
         image_url:
@@ -30,6 +32,7 @@ module.exports = {
         name: 'Chocolate quente cremoso',
         preparation_time: 10,
         servings: 4,
+        chef_id: 1,
         category_id: 3,
         video_url: '',
         image_url:

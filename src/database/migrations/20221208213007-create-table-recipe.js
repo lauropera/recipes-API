@@ -14,6 +14,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      chef_id: {
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id',
+        },
+        type: Sequelize.INTEGER,
+      },
       category_id: {
         allowNull: false,
         references: {
