@@ -5,7 +5,7 @@ import { authController } from './controllerInstances';
 const router = Router();
 
 router.post('/register', authController.register);
-router.post('/login', authController.login);
-router.get('/validate', authController.listUser);
+// router.post('/login', authController.login);
+// router.get('/validate', authController.listUser);
 
 export default router;
