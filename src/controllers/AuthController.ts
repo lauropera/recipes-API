@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { AuthService, RoleService } from '../services';
+import { AuthService } from '../services';
 
 class AuthController {
   private _service: AuthService;
-  private _roleService: RoleService;
 
   constructor() {
     this._service = new AuthService();
-    this._roleService = new RoleService();
 
     this.register = this.register.bind(this);
     this.login = this.login.bind(this);
@@ -32,7 +30,7 @@ class AuthController {
       data: { email },
     } = res.locals.user;
 
-    const role = await this._roleService.getUserRole(email);
+    const role = await this._service.getUserRole(email);
     res.status(StatusCodes.OK).json({ role });
   }
 }

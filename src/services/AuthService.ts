@@ -18,17 +18,21 @@ class AuthService {
     }
   }
 
+  async getUserRole(email: string): Promise<string> {
+    const user = (await this._repository.findOne({ where: { email } })) as User;
+    return user.role;
+  }
+
   async register(credentials: IUserCreation): Promise<void> {
     validator<IUserCreation>(
       credentials,
       RegisterSchema,
-      StatusCodes.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST
     );
 
     await this.checkIfEmailExists(credentials.email);
 
     const encryptedPassword = hashSync(credentials.password, 8);
-
     await this._repository.create({
       ...credentials,
       password: encryptedPassword,
@@ -51,7 +55,7 @@ class AuthService {
     if (!passwordValidation) {
       throw new HttpException(
         StatusCodes.UNAUTHORIZED,
-        'Email or password is incorrect',
+        'Email or password is incorrect'
       );
     }
 

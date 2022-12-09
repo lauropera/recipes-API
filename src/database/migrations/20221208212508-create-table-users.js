@@ -23,18 +23,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      role_id: {
-        allowNull: false,
-        references: {
-          model: 'roles',
-          key: 'id',
-        },
-        type: Sequelize.INTEGER,
+      role: {
+        type: Sequelize.ENUM('user', 'admin'),
+        defaultValue: 'user',
       }
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down (queryInterface) {
     await queryInterface.dropTable('users');
   }
 };

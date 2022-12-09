@@ -1,16 +1,17 @@
-import { STRING, INTEGER, Model } from 'sequelize';
+import { ENUM, STRING, INTEGER, Model } from 'sequelize';
 import db from '.';
-import Role from './Role';
+
+type RoleType = 'user' | 'admin';
 
 interface IUser {
   id: number;
   name: string;
   email: string;
   password: string;
-  roleId: number;
+  role: RoleType;
 }
 
-type IUserCreation = Omit<IUser, 'id | roleId'>;
+type IUserCreation = Omit<IUser, 'id'>;
 
 type IUserReturned = Omit<IUser, 'password'>;
 
@@ -19,7 +20,7 @@ class User extends Model<IUser, IUserCreation> {
   declare name: string;
   declare email: string;
   declare password: string;
-  declare roleId: number;
+  declare role: RoleType;
 }
 
 User.init(
@@ -33,7 +34,10 @@ User.init(
     name: STRING,
     email: STRING,
     password: STRING,
-    roleId: INTEGER,
+    role: {
+      type: ENUM('user', 'admin'),
+      defaultValue: 'user',
+    },
   },
   {
     sequelize: db,
@@ -41,11 +45,8 @@ User.init(
     underscored: true,
     tableName: 'users',
     modelName: 'user',
-  },
+  }
 );
-
-User.hasOne(Role, { foreignKey: 'id', as: 'role' });
-Role.hasMany(User, { foreignKey: 'role_id', as: 'users' });
 
 export default User;
 export { IUser, IUserCreation, IUserReturned };
