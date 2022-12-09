@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.bulkInsert('recipe', [
       {
         name: 'Bolo de cenoura',
-        preparationTime: 40,
+        preparation_time: 40,
         servings: 8,
         video_url: '',
         image_url:
@@ -16,7 +16,7 @@ module.exports = {
       },
       {
         name: 'Salmão ao champignon',
-        preparationTime: 60,
+        preparation_time: 60,
         servings: 4,
         video_url: '',
         image_url:
@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         name: 'Chocolate quente cremoso',
-        preparationTime: 10,
+        preparation_time: 10,
         servings: 4,
         video_url: '',
         image_url:
@@ -36,7 +36,7 @@ module.exports = {
       },
       {
         name: 'Coxinha de frango',
-        preparationTime: 180,
+        preparation_time: 180,
         servings: 50,
         video_url: '',
         image_url:

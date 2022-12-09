@@ -12,7 +12,7 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       preparation_time: {
         allowNull: false,
