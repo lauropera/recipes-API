@@ -30,9 +30,10 @@ services:
     container_name: rcp_db
     platform: linux/x86_64
     ports:
-      - 3002:5432
+      - 5432:5432
     user: postgres
     environment:
+      - POSTGRES_DB=Recipes
       - POSTGRES_PASSWORD=password
     restart: 'always'
     healthcheck:
