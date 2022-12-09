@@ -9,7 +9,7 @@ class AuthController {
     this._service = new AuthService();
 
     this.register = this.register.bind(this);
-    // this.login = this.login.bind(this);
+    this.login = this.login.bind(this);
     // this.listUser = this.listUser.bind(this);
   }
 
@@ -20,10 +20,10 @@ class AuthController {
       .json({ message: 'Successful registration!' });
   }
 
-  // async login(req: Request, res: Response): Promise<void> {
-  //   const token = await this._service.login(req.body);
-  //   res.status(StatusCodes.OK).json({ token });
-  // }
+  async login(req: Request, res: Response): Promise<void> {
+    const token = await this._service.login(req.body);
+    res.status(StatusCodes.OK).json({ token });
+  }
 
   // async listUser(req: Request, res: Response): Promise<void> {
   //   const auth = req.headers.authorization;

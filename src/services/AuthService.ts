@@ -1,14 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
-import { hashSync } from 'bcryptjs';
+import { compareSync, hashSync } from 'bcryptjs';
 import HttpException from '../utils/HttpException';
 import User, { IUser, IUserCreation } from '../database/models/User';
 import ILogin from '../interfaces/ILogin';
-import RegisterSchema from './utils/validations/schemas/schemas';
+import { LoginSchema, RegisterSchema } from './utils/validations/schemas';
 import validator from './utils/validations/validator';
 import Token from './utils/token/TokenUtils';
 
 class AuthService {
   private _repository = User;
+  private _tokenUtils = Token;
 
   private async checkIfEmailExists(email: string): Promise<void> {
     const user = await this._repository.findOne({ where: { email } });
@@ -34,7 +35,27 @@ class AuthService {
     });
   }
 
-  // async login(credentials: ILogin): Promise<string> {}
+  async login(credentials: ILogin): Promise<string> {
+    validator<ILogin>(credentials, LoginSchema, StatusCodes.BAD_REQUEST);
+
+    const { email, password } = credentials;
+
+    const user = await this._repository.findOne({ where: { email } });
+
+    if (!user) throw new HttpException(StatusCodes.NOT_FOUND, 'User not found');
+
+    const passwordValidation = compareSync(password, user.password);
+
+    if (!passwordValidation) {
+      throw new HttpException(
+        StatusCodes.UNAUTHORIZED,
+        'Email or password is incorrect',
+      );
+    }
+
+    const token = this._tokenUtils.generate(user);
+    return token;
+  }
 
   // async getUser(authToken: string): Promise<IUser> {}
 }
