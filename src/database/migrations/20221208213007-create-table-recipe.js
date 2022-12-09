@@ -14,14 +14,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      category_id: {
-        allowNull: false,
-        references: {
-          model: 'category',
-          key: 'id',
-        },
-        type: Sequelize.INTEGER,
-      },
       preparation_time: {
         allowNull: false,
         type: Sequelize.INTEGER,
