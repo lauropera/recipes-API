@@ -1,3 +1,4 @@
 import AuthService from './AuthService';
+import RecipeService from './RecipeService';
 
-export { AuthService };
+export { AuthService, RecipeService };
