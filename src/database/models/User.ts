@@ -45,7 +45,7 @@ User.init(
     underscored: true,
     tableName: 'users',
     modelName: 'user',
-  }
+  },
 );
 
 export default User;

@@ -27,7 +27,7 @@ class AuthService {
     validator<IUserCreation>(
       credentials,
       RegisterSchema,
-      StatusCodes.BAD_REQUEST
+      StatusCodes.BAD_REQUEST,
     );
 
     await this.checkIfEmailExists(credentials.email);
@@ -55,7 +55,7 @@ class AuthService {
     if (!passwordValidation) {
       throw new HttpException(
         StatusCodes.UNAUTHORIZED,
-        'Email or password is incorrect'
+        'Email or password is incorrect',
       );
     }
 
