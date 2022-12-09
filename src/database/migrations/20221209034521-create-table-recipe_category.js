@@ -2,22 +2,28 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('recipe_category', {
       recipe_id: {
         allowNull: false,
-        autoIncrement: true,
+        references: {
+          model: 'recipe',
+          key: 'id',
+        },
         type: Sequelize.INTEGER,
       },
       category_id: {
         allowNull: false,
-        autoIncrement: true,
+        references: {
+          model: 'category',
+          key: 'id',
+        },
         type: Sequelize.INTEGER,
       },
     });
   },
 
-  async down (queryInterface) {
+  async down(queryInterface) {
     await queryInterface.dropTable('recipe_category');
-  }
+  },
 };
