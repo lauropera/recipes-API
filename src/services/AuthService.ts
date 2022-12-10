@@ -57,16 +57,6 @@ class AuthService {
     const token = this._tokenUtils.generate(user);
     return token;
   }
-
-  async getUserRole(email: string): Promise<string> {
-    const user = await this._repository.findOne({ where: { email } });
-
-    if (!user) {
-      throw new HttpException(StatusCodes.NOT_FOUND, 'User not found');
-    }
-
-    return user.role;
-  }
 }
 
 export default AuthService;
