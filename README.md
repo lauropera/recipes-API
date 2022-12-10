@@ -38,7 +38,7 @@ git clone git@github.com:lauropera/recipes-API.git
 
 ### 2 - Na raíz do projeto, suba os containers do backend (`rcp_backend`) e o banco de dados (`rcp_db`) com o comando:
 
-    docker-compose up -d --build
+    npm run compose:up
 
 Os containers estão mapeados nas seguintes portas:
 
@@ -47,7 +47,7 @@ Os containers estão mapeados nas seguintes portas:
 
 Para parar os containers, na pasta raiz do projeto execute o comando:
 
-    docker-compose down
+    npm run compose:down
 
 ### 3 - Usuários para fazer login
 
