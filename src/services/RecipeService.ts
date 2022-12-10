@@ -16,10 +16,7 @@ import RecipeStep from '../database/models/RecipeStep';
 import Recipe, { IRecipe } from '../database/models/Recipe';
 import RecipeIngredient from '../database/models/RecipeIngredient';
 
-import TagService from './TagService';
-import UnitService from './UnitService';
-import CategoryService from './CategoryService';
-import IngredientService from './IngredientService';
+import { TagService, UnitService, IngredientService, CategoryService } from '.';
 
 const INCLUDE_OPTIONS = {
   include: [
@@ -50,17 +47,17 @@ const INCLUDE_OPTIONS = {
 
 class RecipeService {
   private _repository = Recipe;
-  private _tagService: TagService;
-  private _unitService: UnitService;
-  private _ingredientService: IngredientService;
-  private _categoryService: CategoryService;
-
   private _userRepository = User;
   private _tagRepository = Tag;
   private _ingredientRepository = Ingredient;
   private _recipeIngredientRepository = RecipeIngredient;
   private _recipeTagRepository = RecipeTag;
   private _recipeSteps = RecipeStep;
+
+  private _tagService: TagService;
+  private _unitService: UnitService;
+  private _ingredientService: IngredientService;
+  private _categoryService: CategoryService;
 
   constructor() {
     this._tagService = new TagService();
@@ -91,7 +88,7 @@ class RecipeService {
     schemaValidator<INewRecipe>(
       recipeData,
       RecipeSchema,
-      StatusCodes.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST
     );
 
     const recipeChef = await this._userRepository.findOne({
@@ -104,15 +101,15 @@ class RecipeService {
 
     const chefId = recipeChef.dataValues.id;
     const categoryId = await this._categoryService.getCategoryId(
-      recipeData.category,
+      recipeData.category
     );
 
     const { tagsFound, newTags } = await this._tagService.getTags(
-      recipeData.tags,
+      recipeData.tags
     );
 
     const ingredientsData = await this._ingredientService.getRecipeIngredients(
-      recipeData.ingredients,
+      recipeData.ingredients
     );
 
     try {
@@ -128,15 +125,14 @@ class RecipeService {
 
       const recipeId = newRecipe.dataValues.id;
 
-      const allTags: INewRecipeTag[] = [];
-
-      const allIngredients: IAllIngredients[] = [];
-
       const allSteps = recipeData.instructions.map((instruction, index) => ({
         stepNumber: index + 1,
         recipeId,
         instruction,
       }));
+
+      const allTags: INewRecipeTag[] = [];
+      const allIngredients: IAllIngredients[] = [];
 
       if (newTags.length > 0) {
         const insertNewTags = newTags.map(async (tagName) => {
@@ -173,7 +169,7 @@ class RecipeService {
       });
 
       const recipeIngredients = await this._unitService.formatUnitToId(
-        allIngredients,
+        allIngredients
       );
 
       tagsFound.forEach((tagId) => {
@@ -186,7 +182,7 @@ class RecipeService {
     } catch (err) {
       throw new HttpException(
         StatusCodes.BAD_REQUEST,
-        'Error adding a new recipe',
+        'Error adding a new recipe'
       );
     }
   }
