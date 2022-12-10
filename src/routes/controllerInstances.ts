@@ -1,10 +1,13 @@
 import {
   AuthController,
   RecipeController,
+  FavoriteRecipeController,
 } from '../controllers';
 
 const authController = new AuthController();
 
 const recipeController = new RecipeController();
 
-export { authController, recipeController };
+const favoriteRecipesController = new FavoriteRecipeController();
+
+export { authController, recipeController, favoriteRecipesController };

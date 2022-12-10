@@ -13,6 +13,7 @@ import Ingredient from '../database/models/Ingredient';
 import RecipeStep from '../database/models/RecipeStep';
 import Recipe, { IRecipe } from '../database/models/Recipe';
 import RecipeIngredient from '../database/models/RecipeIngredient';
+import UserFavoriteRecipe from '../database/models/UserFavoriteRecipe';
 
 import UnitService from './UnitService';
 import IngredientService from './IngredientService';
@@ -45,16 +46,11 @@ class RecipeService {
   private _ingredientRepository = Ingredient;
   private _recipeIngredientRepository = RecipeIngredient;
   private _recipeSteps = RecipeStep;
+  private _favoriteRecipes = UserFavoriteRecipe;
 
-  private _unitService: UnitService;
-  private _ingredientService: IngredientService;
-  private _categoryService: CategoryService;
-
-  constructor() {
-    this._unitService = new UnitService();
-    this._ingredientService = new IngredientService();
-    this._categoryService = new CategoryService();
-  }
+  private _unitService = new UnitService();
+  private _ingredientService = new IngredientService();
+  private _categoryService = new CategoryService();
 
   async getAll(category: string | undefined): Promise<IRecipe[]> {
     let filter = {};
@@ -151,7 +147,6 @@ class RecipeService {
       const recipeIngredients = await this._unitService.formatUnitToId(
         allIngredients
       );
-
 
       await this._recipeSteps.bulkCreate(allSteps);
       await this._recipeIngredientRepository.bulkCreate(recipeIngredients);

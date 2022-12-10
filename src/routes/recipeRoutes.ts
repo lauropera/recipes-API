@@ -1,11 +1,18 @@
 import 'express-async-errors';
 import { Router } from 'express';
-import { recipeController } from './controllerInstances';
+import {
+  recipeController,
+  favoriteRecipesController,
+} from './controllerInstances';
 import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();
 
 router.get('/', recipeController.listAll);
+router.post('/:id/favorite', authMiddleware, favoriteRecipesController.add);
+
+router.post('/:id/unfavorite', authMiddleware, favoriteRecipesController.remove);
+
 router.get('/:id', recipeController.listById);
 router.post('/new', authMiddleware, recipeController.create);
 
