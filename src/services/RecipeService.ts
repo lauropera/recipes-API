@@ -1,28 +1,25 @@
-/* eslint-disable max-lines-per-function */
 import { StatusCodes } from 'http-status-codes';
-import RecipeTag from '../database/models/RecipeTag';
 import HttpException from '../utils/HttpException';
-import db from '../database/models';
-import Category from '../database/models/Category';
-import User from '../database/models/User';
-import Recipe, { IRecipe } from '../database/models/Recipe';
-import RecipeStep from '../database/models/RecipeStep';
-import Tag from '../database/models/Tag';
-import Ingredient from '../database/models/Ingredient';
-import Unit from '../database/models/Unit';
-import RecipeIngredient from '../database/models/RecipeIngredient';
-import INewRecipe, { IngredientDetail } from '../interfaces/INewRecipe';
-import AuthService from './AuthService';
+
+import INewRecipe from '../interfaces/INewRecipe';
 import schemaValidator from './utils/validations/schemaValidator';
 import { RecipeSchema } from './utils/validations/schemas';
-import {
-  IIngredientFound,
-  IIngredientsList,
-  INewIngredient,
-  ITagsList,
-  nameType,
-  newRecipeIngredient,
-} from '../interfaces/IValuesList';
+import { IAllIngredients, INewRecipeTag } from '../interfaces/IValuesList';
+
+import User from '../database/models/User';
+import Tag from '../database/models/Tag';
+import Unit from '../database/models/Unit';
+import Category from '../database/models/Category';
+import RecipeTag from '../database/models/RecipeTag';
+import Ingredient from '../database/models/Ingredient';
+import RecipeStep from '../database/models/RecipeStep';
+import Recipe, { IRecipe } from '../database/models/Recipe';
+import RecipeIngredient from '../database/models/RecipeIngredient';
+
+import TagService from './TagService';
+import UnitService from './UnitService';
+import CategoryService from './CategoryService';
+import IngredientService from './IngredientService';
 
 const INCLUDE_OPTIONS = {
   include: [
@@ -53,15 +50,24 @@ const INCLUDE_OPTIONS = {
 
 class RecipeService {
   private _repository = Recipe;
+  private _tagService: TagService;
+  private _unitService: UnitService;
+  private _ingredientService: IngredientService;
+  private _categoryService: CategoryService;
+
   private _userRepository = User;
-  private _categoryRepository = Category;
   private _tagRepository = Tag;
   private _ingredientRepository = Ingredient;
-  private _unitRepository = Unit;
-  private _recipeTagIngredient = RecipeIngredient;
+  private _recipeIngredientRepository = RecipeIngredient;
   private _recipeTagRepository = RecipeTag;
+  private _recipeSteps = RecipeStep;
 
-  constructor(private _authService = new AuthService()) {}
+  constructor() {
+    this._tagService = new TagService();
+    this._unitService = new UnitService();
+    this._ingredientService = new IngredientService();
+    this._categoryService = new CategoryService();
+  }
 
   async getAll(): Promise<IRecipe[]> {
     const recipes = await this._repository.findAll({
@@ -81,103 +87,7 @@ class RecipeService {
     return recipe;
   }
 
-  private async validateCategory(name: string): Promise<number> {
-    const category = await this._categoryRepository.findOne({
-      where: { name },
-    });
-
-    if (!category) {
-      throw new HttpException(StatusCodes.NOT_FOUND, 'Category not found');
-    }
-
-    return category.dataValues.id;
-  }
-
-  private async validateUserRole(userEmail: string): Promise<void> {
-    const userRole = await this._authService.getUserRole(userEmail);
-
-    if (userRole !== 'admin') {
-      throw new HttpException(401, 'User not allowed');
-    }
-  }
-
-  private async getTags(tags: string[]): Promise<ITagsList> {
-    const tagsFound: number[] = [];
-    const newTags: nameType[] = [];
-
-    const tagsList = tags.map(async (name) => {
-      const tag = await this._tagRepository.findOne({ where: { name } });
-
-      if (tag) {
-        tagsFound.push(tag.dataValues.id);
-      } else {
-        newTags.push({ name });
-      }
-    });
-
-    await Promise.all(tagsList);
-
-    return { tagsFound, newTags };
-  }
-
-  private async validateUnit(name: string): Promise<void> {
-    const unit = await this._unitRepository.findOne({
-      where: { unitShort: name },
-    });
-
-    if (!unit) throw new HttpException(StatusCodes.NOT_FOUND, 'Invalid unit');
-  }
-
-  private async getIngredients(
-    ingredients: IngredientDetail[],
-  ): Promise<IIngredientsList> {
-    const ingredientsFound: IIngredientFound[] = [];
-    const newIngredients: INewIngredient[] = [];
-
-    const ingredientsList = ingredients.map(async ({ name, unit, amount }) => {
-      await this.validateUnit(unit);
-
-      const ingredient = await this._ingredientRepository.findOne({
-        where: { name },
-      });
-
-      if (ingredient) {
-        return ingredientsFound.push({
-          ingredientId: ingredient.dataValues.id,
-          amount,
-          unit,
-        });
-      }
-
-      if (!newIngredients.some((item) => item.name === name)) {
-        newIngredients.push({
-          amount,
-          name,
-          unit,
-        });
-      }
-    });
-
-    await Promise.all(ingredientsList);
-
-    return { ingredientsFound, newIngredients };
-  }
-
-  private static formattedData(recipeData: INewRecipe): any {
-    const recipe = {
-      name: recipeData.name,
-      preparationTime: recipeData.preparationTime,
-      servings: recipeData.servings,
-      videoUrl: recipeData.videoUrl,
-      imageUrl: recipeData.imageUrl,
-    };
-
-    return { recipe };
-  }
-
-  async create(loggedUserEmail: string, recipeData: INewRecipe): Promise<any> {
-    await this.validateUserRole(loggedUserEmail);
-
+  async create(recipeData: INewRecipe): Promise<void> {
     schemaValidator<INewRecipe>(
       recipeData,
       RecipeSchema,
@@ -193,63 +103,86 @@ class RecipeService {
     }
 
     const chefId = recipeChef.dataValues.id;
-    const categoryId = await this.validateCategory(recipeData.category);
+    const categoryId = await this._categoryService.getCategoryId(
+      recipeData.category,
+    );
 
-    const { tagsFound, newTags } = await this.getTags(recipeData.tags);
+    const { tagsFound, newTags } = await this._tagService.getTags(
+      recipeData.tags,
+    );
 
-    const { ingredientsFound, newIngredients } = await this.getIngredients(
+    const ingredientsData = await this._ingredientService.getRecipeIngredients(
       recipeData.ingredients,
     );
 
-    const { recipe } = RecipeService.formattedData(recipeData);
-
-    const transaction = await db.transaction();
     try {
-      const newRecipe = await this._repository.create(
-        {
-          ...recipe,
-          chefId,
-          categoryId,
-        },
-        { transaction },
-      );
+      const newRecipe = await this._repository.create({
+        name: recipeData.name,
+        preparationTime: recipeData.preparationTime,
+        servings: recipeData.servings,
+        videoUrl: recipeData.videoUrl,
+        imageUrl: recipeData.imageUrl,
+        chefId,
+        categoryId,
+      });
 
       const recipeId = newRecipe.dataValues.id;
-      const tagsId = [...tagsFound];
-      const ingredients = [...ingredientsFound];
 
-      // if (newIngredients.length > 0) {
-      //   const ingredientNames = newIngredients.map(({ name }) => ({ name }));
+      const allTags: INewRecipeTag[] = [];
 
-      //   const ingredientList = await this._ingredientRepository.bulkCreate(
-      //     ingredientNames,
-      //   );
+      const allIngredients: IAllIngredients[] = [];
 
-      //   const data = ingredientList.map(({ amount, unit }) => ({
-      //     unit, amount, ingredientId:
-      //   }))
+      const allSteps = recipeData.instructions.map((instruction, index) => ({
+        stepNumber: index + 1,
+        recipeId,
+        instruction,
+      }));
 
-      //   ingredientList.forEach((i) => ingredients.push(i.dataValues));
-      // }
+      if (newTags.length > 0) {
+        const insertNewTags = newTags.map(async (tagName) => {
+          const newTag = await this._tagRepository
+            .create(tagName)
+            .then((data) => ({
+              tagId: data.dataValues.id,
+              recipeId,
+            }));
+          allTags.push(newTag);
+        });
 
-      // const recipeIngredients = ingredientsId.map((ingredientId) => (
-      //   {
-      //     amount:
-      //   }
-      // ))
-      // await this._recipeTagIngredient.bulkCreate()
+        await Promise.all(insertNewTags);
+      }
 
-      // if (newTags.length > 0) {
-      //   const tagList = await this._tagRepository.bulkCreate(newTags);
-      //   tagList.forEach((t) => tagsId.push(t.dataValues.id));
-      // }
+      const { newIngredients, ingredientsFound } = ingredientsData;
+      if (newIngredients.length > 0) {
+        const insertNewIngredients = newIngredients.map(async (ingredient) => {
+          const newIngredient = await this._ingredientRepository
+            .create({ name: ingredient.name })
+            .then((data) => ({
+              ...ingredient,
+              ingredientId: data.dataValues.id,
+              recipeId,
+            }));
 
-      // const recipeTags = tagsId.map((tagId) => ({ recipeId, tagId }));
+          allIngredients.push(newIngredient);
+        });
+        await Promise.all(insertNewIngredients);
+      }
 
-      // const e = await this._recipeTagRepository.bulkCreate(recipeTags, {
-      //   include: [Recipe, Tag],
-      // });
-      // await this._recipeTagRepository.create(recipeTags[0]);
+      ingredientsFound.forEach((ingredient) => {
+        allIngredients.push({ ...ingredient, recipeId });
+      });
+
+      const recipeIngredients = await this._unitService.formatUnitToId(
+        allIngredients,
+      );
+
+      tagsFound.forEach((tagId) => {
+        allTags.push({ tagId, recipeId });
+      });
+
+      await this._recipeSteps.bulkCreate(allSteps);
+      await this._recipeTagRepository.bulkCreate(allTags);
+      await this._recipeIngredientRepository.bulkCreate(recipeIngredients);
     } catch (err) {
       throw new HttpException(
         StatusCodes.BAD_REQUEST,
