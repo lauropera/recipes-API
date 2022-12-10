@@ -2,7 +2,6 @@ import cors from 'cors';
 import express from 'express';
 import authRoutes from './routes/authRoutes';
 import recipeRoutes from './routes/recipeRoutes';
-import categoryRoutes from './routes/categoryRoutes';
 import httpErrorMiddleware from './middlewares/httpErrorMiddleware';
 
 class App {
@@ -33,7 +32,6 @@ class App {
 
     this.app.use('/auth', authRoutes);
     this.app.use('/recipe', recipeRoutes);
-    this.app.use('/category', categoryRoutes);
 
     this.app.use(httpErrorMiddleware);
   }
