@@ -25,13 +25,9 @@ class RecipeController {
   }
 
   async create(req: Request, res: Response): Promise<void> {
-    const { data: { email } } = res.locals.user;
-
-    await this._service.create(email, req.body);
-
+    await this._service.create(req.body);
     res
       .status(StatusCodes.CREATED)
-      // .json(test);
       .json({ message: 'Recipe has been successfully created' });
   }
 }
