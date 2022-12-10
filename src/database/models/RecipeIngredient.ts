@@ -4,7 +4,7 @@ import db from '.';
 interface IRecipeIngredient {
   amount: number;
   ingredientId: number;
-  unitId: number;
+  unitId: number | null;
   recipeId: number;
 }
 
