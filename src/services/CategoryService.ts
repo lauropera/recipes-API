@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import HttpException from '../utils/HttpException';
-import Category from '../database/models/Category';
+import Category, { ICategory } from '../database/models/Category';
 
 class CategoryService {
   private _repository = Category;
@@ -15,6 +15,11 @@ class CategoryService {
     }
 
     return category.dataValues.id;
+  }
+
+  async getAll(): Promise<ICategory[]> {
+    const categories = await this._repository.findAll();
+    return categories;
   }
 }
 
