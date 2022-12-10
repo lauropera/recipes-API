@@ -1,12 +1,13 @@
 import Tag from '../database/models/Tag';
-import { ITagsList, tagName } from '../interfaces/IValuesList';
+import { ITagsList } from '../interfaces/IValuesList';
+import { NameType } from '../interfaces/NameType';
 
 class TagService {
   private _repository = Tag;
 
   async getTags(tags: string[]): Promise<ITagsList> {
     const tagsFound: number[] = [];
-    const newTags: tagName[] = [];
+    const newTags: NameType[] = [];
 
     const tagsList = tags.map(async (name) => {
       const tag = await this._repository.findOne({ where: { name } });
