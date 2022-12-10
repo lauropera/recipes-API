@@ -71,8 +71,6 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 • Cadastra um novo usuário.
 
-<br/>
-
   <h3>Exemplo de requisição:</h3>
 
 ```
@@ -90,8 +88,6 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
   <br/ >
 
 • Faz o login na aplicação.
-
-<br/>
 
   <h3>Exemplo de requisição:</h3>
 
@@ -138,8 +134,6 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 • Traz todas as receitas pela categoria.
 
-<br/>
-
   <h3>Exemplo de rota</h3>
 
 ```
@@ -161,8 +155,6 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
   <br/ >
 
 • Cria uma nova receita.
-
-  <br/>
 
   <h3>Exemplo de requisição:</h3>
 
