@@ -86,7 +86,7 @@ Recipe.belongsToMany(Unit, {
   through: RecipeIngredient,
 });
 
-Recipe.hasMany(RecipeIngredient, { as: 'ingredientsDetails' });
+Recipe.hasMany(RecipeIngredient, { as: 'ingredientsDetail' });
 RecipeIngredient.belongsTo(Recipe);
 
 Ingredient.hasMany(RecipeIngredient, {

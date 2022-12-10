@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+import HttpException from '../utils/HttpException';
 import Category from '../database/models/Category';
 import User from '../database/models/User';
 import Recipe, { IRecipe } from '../database/models/Recipe';
@@ -19,7 +21,7 @@ const INCLUDE_OPTIONS = {
     },
     {
       model: RecipeIngredient,
-      as: 'ingredientsDetails',
+      as: 'ingredientsDetail',
       attributes: { exclude: ['ingredientId', 'unitId', 'recipeId'] },
       include: [
         { model: Ingredient, as: 'ingredient', attributes: ['name'] },
@@ -43,6 +45,16 @@ class RecipeService {
       ...INCLUDE_OPTIONS,
     });
     return recipes;
+  }
+
+  async getById(id: number): Promise<IRecipe> {
+    const recipe = await this._repository.findByPk(id, { ...INCLUDE_OPTIONS });
+
+    if (!recipe) {
+      throw new HttpException(StatusCodes.NOT_FOUND, 'Recipe not found');
+    }
+
+    return recipe;
   }
 }
 
