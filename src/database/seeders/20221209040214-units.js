@@ -9,9 +9,9 @@ module.exports = {
       { unit_long: 'mililitro', unit_short: 'ml' },
       { unit_long: 'litro', unit_short: 'l' },
       { unit_long: 'colher', unit_short: 'colher' },
-      { unit_long: 'xícara', unit_short: 'xícara' },
       { unit_long: 'colher de sopa', unit_short: 'colher (sopa)' },
       { unit_long: 'colher de chá', unit_short: 'colher (chá)' },
+      { unit_long: 'xícara de chá', unit_short: 'xícara (chá)' },
     ]);
   },
 
