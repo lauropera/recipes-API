@@ -1,4 +1,6 @@
-# 📦 Recipes API
+# 🍣 Recipes API
+
+![Preview do Projeto Recipes API](./images/project-preview.png)
 
 ## 📡 Desenvolvimento
 
@@ -65,11 +67,13 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 <details>
   <summary><strong>POST /auth/register</strong></summary>
-  • Cadastra um novo usuário.
+  <br/ >
+
+• Cadastra um novo usuário.
 
 <br/>
 
-  <h3>Corpo da requisição:</h3>
+  <h3>Exemplo de requisição:</h3>
 
 ```
 {
@@ -83,11 +87,13 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 <details>
   <summary><strong>POST /auth/login</strong></summary>
-  • Faz o login na aplicação.
+  <br/ >
+
+• Faz o login na aplicação.
 
 <br/>
 
-  <h3>Corpo da requisição:</h3>
+  <h3>Exemplo de requisição:</h3>
 
 ```
 {
@@ -104,22 +110,33 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 <details>
   <summary><strong>GET /recipe</strong></summary>
-  • Traz todas as receitas.
+  <br/ >
+
+• Traz todas as receitas.
+
 </details>
 
 <details>
   <summary><strong>GET /recipe/favorites</strong></summary>
-  • Traz as receitas favoritadas do usuário.
+  <br/ >
+
+• Traz as receitas favoritadas do usuário.
+
 </details>
 
 <details>
   <summary><strong>GET /recipe/:id</strong></summary>
-  • Traz uma receita pelo seu id.
+  <br/ >
+
+• Traz uma receita pelo seu id.
+
 </details>
 
 <details>
   <summary><strong>GET /recipe/?category=</strong></summary>
-  • Traz todas as receitas pela categoria.
+  <br/ >
+
+• Traz todas as receitas pela categoria.
 
 <br/>
 
@@ -133,16 +150,21 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 <details>
   <summary><strong>POST /recipe/:id/favorite</strong></summary>
-  • Adiciona uma receita nos favoritos pelo seu id.
+  <br/ >
+
+• Adiciona uma receita nos favoritos pelo seu id.
+
 </details>
 
 <details>
   <summary><strong>POST /recipe/new</strong></summary>
-  • Cria uma nova receita.
+  <br/ >
+
+• Cria uma nova receita.
 
   <br/>
 
-  <h3>Corpo da requisição:</h3>
+  <h3>Exemplo de requisição:</h3>
 
 ```
 {
@@ -174,7 +196,10 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
 
 <details>
   <summary><strong>DELETE /recipe/:id/unfavorite</strong></summary>
-  • Remove uma receita nos favoritos pelo seu id.
+  <br/ >
+
+• Remove uma receita nos favoritos pelo seu id.
+
 </details>
 
 <br />
