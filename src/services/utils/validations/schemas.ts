@@ -46,3 +46,9 @@ export const RecipeSchema = z.object({
     .nonempty(),
   instructions: z.array(z.string()).nonempty(),
 });
+
+export const CategorySchema = z.object({
+  name: z
+    .string({ required_error: REQUIRED_MSG })
+    .min(2, setLengthMessage('Name', 6)),
+})

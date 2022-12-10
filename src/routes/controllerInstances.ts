@@ -1,7 +1,13 @@
-import { AuthController, RecipeController } from '../controllers';
+import {
+  AuthController,
+  RecipeController,
+  CategoryController,
+} from '../controllers';
 
 const authController = new AuthController();
 
 const recipeController = new RecipeController();
 
-export { authController, recipeController };
+const categoryController = new CategoryController();
+
+export { authController, recipeController, categoryController };
