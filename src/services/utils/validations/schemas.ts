@@ -33,7 +33,6 @@ export const RecipeSchema = z.object({
   videoUrl: z.string().optional(),
   imageUrl: z.string().optional(),
   category: z.string({ required_error: REQUIRED_MSG }),
-  tags: z.array(z.string()).optional(),
   ingredients: z
     .array(
       z.object({

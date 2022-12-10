@@ -4,30 +4,24 @@ import HttpException from '../utils/HttpException';
 import INewRecipe from '../interfaces/INewRecipe';
 import schemaValidator from './utils/validations/schemaValidator';
 import { RecipeSchema } from './utils/validations/schemas';
-import { IAllIngredients, INewRecipeTag } from '../interfaces/IValuesList';
+import { IAllIngredients } from '../interfaces/IValuesList';
 
 import User from '../database/models/User';
-import Tag from '../database/models/Tag';
 import Unit from '../database/models/Unit';
 import Category from '../database/models/Category';
-import RecipeTag from '../database/models/RecipeTag';
 import Ingredient from '../database/models/Ingredient';
 import RecipeStep from '../database/models/RecipeStep';
 import Recipe, { IRecipe } from '../database/models/Recipe';
 import RecipeIngredient from '../database/models/RecipeIngredient';
 
-import { TagService, UnitService, IngredientService, CategoryService } from '.';
+import UnitService from './UnitService';
+import IngredientService from './IngredientService';
+import CategoryService from './CategoryService';
 
 const INCLUDE_OPTIONS = {
   include: [
     { model: User, as: 'chef', attributes: ['name'] },
     { model: Category, as: 'category', attributes: ['name'] },
-    {
-      model: Tag,
-      as: 'tags',
-      attributes: ['name'],
-      through: { attributes: [] },
-    },
     {
       model: RecipeIngredient,
       as: 'ingredientsDetail',
@@ -48,19 +42,15 @@ const INCLUDE_OPTIONS = {
 class RecipeService {
   private _repository = Recipe;
   private _userRepository = User;
-  private _tagRepository = Tag;
   private _ingredientRepository = Ingredient;
   private _recipeIngredientRepository = RecipeIngredient;
-  private _recipeTagRepository = RecipeTag;
   private _recipeSteps = RecipeStep;
 
-  private _tagService: TagService;
   private _unitService: UnitService;
   private _ingredientService: IngredientService;
   private _categoryService: CategoryService;
 
   constructor() {
-    this._tagService = new TagService();
     this._unitService = new UnitService();
     this._ingredientService = new IngredientService();
     this._categoryService = new CategoryService();
@@ -113,10 +103,6 @@ class RecipeService {
       recipeData.category
     );
 
-    const { tagsFound, newTags } = await this._tagService.getTags(
-      recipeData.tags
-    );
-
     const ingredientsData = await this._ingredientService.getRecipeIngredients(
       recipeData.ingredients
     );
@@ -140,22 +126,7 @@ class RecipeService {
         instruction,
       }));
 
-      const allTags: INewRecipeTag[] = [];
       const allIngredients: IAllIngredients[] = [];
-
-      if (newTags.length > 0) {
-        const insertNewTags = newTags.map(async (tagName) => {
-          const newTag = await this._tagRepository
-            .create(tagName)
-            .then((data) => ({
-              tagId: data.dataValues.id,
-              recipeId,
-            }));
-          allTags.push(newTag);
-        });
-
-        await Promise.all(insertNewTags);
-      }
 
       const { newIngredients, ingredientsFound } = ingredientsData;
       if (newIngredients.length > 0) {
@@ -181,12 +152,8 @@ class RecipeService {
         allIngredients
       );
 
-      tagsFound.forEach((tagId) => {
-        allTags.push({ tagId, recipeId });
-      });
 
       await this._recipeSteps.bulkCreate(allSteps);
-      await this._recipeTagRepository.bulkCreate(allTags);
       await this._recipeIngredientRepository.bulkCreate(recipeIngredients);
     } catch (err) {
       throw new HttpException(

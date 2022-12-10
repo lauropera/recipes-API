@@ -1,8 +1,6 @@
 import { STRING, DATE, INTEGER, Model } from 'sequelize';
 import db from '.';
 
-import RecipeTag from './RecipeTag';
-import Tag from './Tag';
 import RecipeStep from './RecipeStep';
 import Category from './Category';
 import User from './User';
@@ -71,9 +69,6 @@ Category.hasMany(Recipe, { foreignKey: 'categoryId', as: 'recipes' });
 
 Recipe.hasMany(RecipeStep, { foreignKey: 'recipeId', as: 'recipeSteps' });
 RecipeStep.belongsTo(Recipe, { foreignKey: 'recipeId' });
-
-Recipe.belongsToMany(Tag, { through: RecipeTag });
-Tag.belongsToMany(Recipe, { through: RecipeTag });
 
 Recipe.belongsToMany(User, {
   as: 'favoriteRecipes',

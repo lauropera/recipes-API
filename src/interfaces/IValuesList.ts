@@ -1,5 +1,3 @@
-import { NameType } from './NameType';
-
 interface IngredientAmountUnit {
   amount: number;
   unit?: string;
@@ -8,16 +6,6 @@ interface IngredientAmountUnit {
 export interface IIngredientList extends IngredientAmountUnit {
   ingredientId?: number;
   name?: string;
-}
-
-export interface INewRecipeTag {
-  tagId: number;
-  recipeId: number;
-}
-
-export interface ITagsList {
-  tagsFound: number[];
-  newTags: NameType[];
 }
 
 export interface IIngredientFound extends IngredientAmountUnit {
