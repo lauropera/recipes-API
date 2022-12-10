@@ -9,14 +9,12 @@ module.exports = {
         email: 'mallu@artist.com',
         password:
           '$2a$08$1cg8tH8gaoXr77hMTkb/SOS/ixfvwRJV93dVdAk6Z/c5UMjmD2wyq',
-        role: 'user',
       },
       {
         name: 'Sebastian',
         email: 'sebastian@sebs.com',
         password:
           '$2a$08$mjEvVqV72LHMKTlTZXlBS.C74b8Uq6uRvPgGu5k5.xQ6koVzeontO',
-        role: 'admin',
       },
     ]);
   },

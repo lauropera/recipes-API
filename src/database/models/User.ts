@@ -1,14 +1,11 @@
-import { ENUM, STRING, INTEGER, Model } from 'sequelize';
+import { STRING, INTEGER, Model } from 'sequelize';
 import db from '.';
-
-type RoleType = 'user' | 'admin';
 
 interface IUser {
   id: number;
   name: string;
   email: string;
   password: string;
-  role: RoleType;
 }
 
 type IUserCreation = Omit<IUser, 'id'>;
@@ -20,7 +17,6 @@ class User extends Model<IUser, IUserCreation> {
   declare name: string;
   declare email: string;
   declare password: string;
-  declare role: RoleType;
 }
 
 User.init(
@@ -34,10 +30,6 @@ User.init(
     name: STRING,
     email: STRING,
     password: STRING,
-    role: {
-      type: ENUM('user', 'admin'),
-      defaultValue: 'user',
-    },
   },
   {
     sequelize: db,
