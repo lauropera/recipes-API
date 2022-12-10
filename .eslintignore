@@ -7,3 +7,4 @@ src/database/seeders
 src/database/config
 src/database/models/index.ts
 src/services/utils/validations/schemas.ts
+src/services/RecipeService.ts
