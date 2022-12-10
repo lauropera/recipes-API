@@ -13,8 +13,10 @@ class RecipeController {
     this.create = this.create.bind(this);
   }
 
-  async listAll(_req: Request, res: Response): Promise<void> {
-    const recipes = await this._service.getAll();
+  async listAll(req: Request, res: Response): Promise<void> {
+    const { category } = req.query;
+
+    const recipes = await this._service.getAll(category as string);
     res.status(StatusCodes.OK).json(recipes);
   }
 

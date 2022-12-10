@@ -5,9 +5,11 @@ import Category, { ICategory } from '../database/models/Category';
 class CategoryService {
   private _repository = Category;
 
-  async getCategoryId(name: string): Promise<number> {
+  async getCategoryId(name: string | undefined): Promise<number> {
+    const categoryName = name?.toLowerCase();
+
     const category = await this._repository.findOne({
-      where: { name },
+      where: { name: categoryName },
     });
 
     if (!category) {

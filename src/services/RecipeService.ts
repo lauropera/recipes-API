@@ -66,11 +66,20 @@ class RecipeService {
     this._categoryService = new CategoryService();
   }
 
-  async getAll(): Promise<IRecipe[]> {
+  async getAll(category: string | undefined): Promise<IRecipe[]> {
+    let filter = {};
+
+    if (category) {
+      const categoryId = await this._categoryService.getCategoryId(category);
+      filter = { categoryId };
+    }
+
     const recipes = await this._repository.findAll({
       attributes: { exclude: ['chefId', 'categoryId'] },
       ...INCLUDE_OPTIONS,
+      where: { ...filter },
     });
+
     return recipes;
   }
 
