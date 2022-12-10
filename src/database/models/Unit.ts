@@ -3,12 +3,14 @@ import db from '.';
 
 interface IUnit {
   id: number;
-  name: string;
+  unitLong: string;
+  unitShort: string;
 }
 
 class Unit extends Model<IUnit> {
   declare id: number;
-  declare name: string;
+  declare unitLong: string;
+  declare unitShort: string;
 }
 
 Unit.init(
@@ -19,11 +21,13 @@ Unit.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: STRING,
+    unitLong: STRING,
+    unitShort: STRING,
   },
   {
     sequelize: db,
     timestamps: false,
+    underscored: true,
     tableName: 'units',
     modelName: 'unit',
   },

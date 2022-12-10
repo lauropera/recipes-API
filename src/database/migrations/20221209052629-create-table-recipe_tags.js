@@ -5,6 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('recipe_tags', {
       recipe_id: {
+        primaryKey: true,
         allowNull: false,
         references: {
           model: 'recipes',
@@ -13,6 +14,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       tag_id: {
+        primaryKey: true,
         allowNull: false,
         references: {
           model: 'tags',

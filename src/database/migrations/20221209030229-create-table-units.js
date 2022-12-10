@@ -10,12 +10,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
+      unit_long: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,
       },
-      abbreviation: {
+      unit_short: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,

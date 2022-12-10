@@ -1,8 +1,5 @@
 import { DOUBLE, INTEGER, Model } from 'sequelize';
 import db from '.';
-import Ingredient from './Ingredient';
-import Recipe from './Recipe';
-import Unit from './Unit';
 
 interface IRecipeIngredient {
   amount: number;
@@ -38,22 +35,6 @@ RecipeIngredient.init(
     modelName: 'recipe_ingredient',
   },
 );
-
-Recipe.belongsToMany(Ingredient, {
-  as: 'recipeIngredients',
-  foreignKey: 'recipeId',
-  otherKey: 'ingredientId',
-  through: RecipeIngredient,
-});
-
-Ingredient.belongsTo(RecipeIngredient, { foreignKey: 'ingredientId' });
-RecipeIngredient.hasMany(Ingredient, {
-  foreignKey: 'ingredientId',
-  as: 'ingredients',
-});
-
-Unit.belongsTo(RecipeIngredient, { foreignKey: 'unitId' });
-RecipeIngredient.hasMany(Unit, { foreignKey: 'unitId', as: 'units' });
 
 export default RecipeIngredient;
 export { IRecipeIngredient, IRecipeIngredientCreation };

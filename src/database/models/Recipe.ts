@@ -6,6 +6,9 @@ import RecipeStep from './RecipeStep';
 import Category from './Category';
 import User from './User';
 import UserFavoriteRecipe from './UserFavoriteRecipe';
+import Ingredient from './Ingredient';
+import RecipeIngredient from './RecipeIngredient';
+import Unit from './Unit';
 
 interface IRecipe {
   id: number;
@@ -62,30 +65,45 @@ Recipe.init(
 Recipe.belongsTo(User, { foreignKey: 'chefId', as: 'chef' });
 User.hasMany(Recipe, { foreignKey: 'chefId', as: 'userRecipes' });
 
-Recipe.hasOne(Category, { foreignKey: 'categoryId', as: 'category' });
+Recipe.hasOne(Category, { foreignKey: 'id', as: 'category' });
 Category.hasMany(Recipe, { foreignKey: 'categoryId', as: 'recipes' });
 
 Recipe.hasMany(RecipeStep, { foreignKey: 'recipeId', as: 'recipeSteps' });
 RecipeStep.belongsTo(Recipe, { foreignKey: 'recipeId' });
 
-Recipe.belongsToMany(Tag, {
-  as: 'tags',
-  foreignKey: 'recipeId',
-  otherKey: 'tagId',
-  through: RecipeTag,
-});
-Tag.belongsToMany(Recipe, {
-  as: 'recipes',
-  foreignKey: 'recipeId',
-  otherKey: 'tagId',
-  through: RecipeTag,
-});
+Recipe.belongsToMany(Tag, { through: RecipeTag });
+Tag.belongsToMany(Recipe, { through: RecipeTag });
 
 Recipe.belongsToMany(User, {
   as: 'favoriteRecipes',
-  foreignKey: 'recipeId',
-  otherKey: 'userId',
   through: UserFavoriteRecipe,
+});
+
+Recipe.belongsToMany(Ingredient, {
+  through: RecipeIngredient,
+});
+Recipe.belongsToMany(Unit, {
+  through: RecipeIngredient,
+});
+
+Recipe.hasMany(RecipeIngredient, { as: 'ingredientsDetails' });
+RecipeIngredient.belongsTo(Recipe);
+
+Ingredient.hasMany(RecipeIngredient, {
+  sourceKey: 'id',
+  foreignKey: 'ingredientId',
+});
+RecipeIngredient.hasOne(Ingredient, {
+  sourceKey: 'ingredientId',
+  foreignKey: 'id',
+});
+
+Unit.hasMany(RecipeIngredient, {
+  foreignKey: 'unitId',
+});
+RecipeIngredient.hasOne(Unit, {
+  sourceKey: 'unitId',
+  foreignKey: 'id',
 });
 
 export default Recipe;
