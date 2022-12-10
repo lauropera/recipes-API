@@ -12,7 +12,7 @@ router.get('/', recipeController.listAll);
 router.get('/favorites', authMiddleware, favoriteRecipesController.listFavorites);
 
 router.post('/:id/favorite', authMiddleware, favoriteRecipesController.add);
-router.post('/:id/unfavorite', authMiddleware, favoriteRecipesController.remove);
+router.delete('/:id/unfavorite', authMiddleware, favoriteRecipesController.remove);
 router.get('/:id', recipeController.listById);
 
 router.post('/new', authMiddleware, recipeController.create);
