@@ -1,8 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import HttpException from '../utils/HttpException';
-import Recipe from '../database/models/Recipe';
+import Recipe, { IRecipe } from '../database/models/Recipe';
 import User from '../database/models/User';
 import UserFavoriteRecipe from '../database/models/UserFavoriteRecipe';
+import INCLUDE_OPTIONS from './utils/RecipeIncludeOptions';
 
 class FavoriteRecipeService {
   private _repository = UserFavoriteRecipe;
@@ -84,6 +85,30 @@ class FavoriteRecipeService {
         recipeId,
       },
     });
+  }
+
+  async getFavorites(email: string): Promise<IRecipe[]> {
+    const user = (await this._userRepository.findOne({
+      where: { email },
+    })) as User;
+
+    const favorites = await this._repository.findAll({
+      where: { userId: user.dataValues.id },
+    });
+
+    const favoriteRecipes: IRecipe[] = [];
+
+    const setFavorites = favorites.map(async ({ dataValues }) => {
+      const recipe = (await this._recipeRepository.findByPk(
+        dataValues.recipeId,
+        { ...INCLUDE_OPTIONS },
+      )) as Recipe;
+      favoriteRecipes.push(recipe);
+    });
+
+    await Promise.all(setFavorites);
+
+    return favoriteRecipes;
   }
 }
 

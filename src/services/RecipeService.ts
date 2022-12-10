@@ -7,8 +7,6 @@ import { RecipeSchema } from './utils/validations/schemas';
 import { IAllIngredients } from '../interfaces/IValuesList';
 
 import User from '../database/models/User';
-import Unit from '../database/models/Unit';
-import Category from '../database/models/Category';
 import Ingredient from '../database/models/Ingredient';
 import RecipeStep from '../database/models/RecipeStep';
 import Recipe, { IRecipe } from '../database/models/Recipe';
@@ -18,27 +16,7 @@ import UserFavoriteRecipe from '../database/models/UserFavoriteRecipe';
 import UnitService from './UnitService';
 import IngredientService from './IngredientService';
 import CategoryService from './CategoryService';
-
-const INCLUDE_OPTIONS = {
-  include: [
-    { model: User, as: 'chef', attributes: ['name'] },
-    { model: Category, as: 'category', attributes: ['name'] },
-    {
-      model: RecipeIngredient,
-      as: 'ingredientsDetail',
-      attributes: { exclude: ['ingredientId', 'unitId', 'recipeId'] },
-      include: [
-        { model: Ingredient, as: 'ingredient', attributes: ['name'] },
-        { model: Unit, as: 'unit', attributes: { exclude: ['id'] } },
-      ],
-    },
-    {
-      model: RecipeStep,
-      as: 'recipeSteps',
-      attributes: ['stepNumber', 'instruction'],
-    },
-  ],
-};
+import INCLUDE_OPTIONS from './utils/RecipeIncludeOptions';
 
 class RecipeService {
   private _repository = Recipe;
