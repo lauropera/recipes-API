@@ -1,6 +1,6 @@
 import { IRecipeCreation } from '../database/models/Recipe';
 
-type IngredientDetail = {
+export type IngredientDetail = {
   amount: number;
   name: string;
   unit: string;

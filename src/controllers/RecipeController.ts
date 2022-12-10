@@ -10,6 +10,7 @@ class RecipeController {
 
     this.listAll = this.listAll.bind(this);
     this.listById = this.listById.bind(this);
+    this.create = this.create.bind(this);
   }
 
   async listAll(_req: Request, res: Response): Promise<void> {
@@ -21,6 +22,17 @@ class RecipeController {
     const { id } = req.params;
     const recipe = await this._service.getById(Number(id));
     res.status(StatusCodes.OK).json(recipe);
+  }
+
+  async create(req: Request, res: Response): Promise<void> {
+    const { data: { email } } = res.locals.user;
+
+    await this._service.create(email, req.body);
+
+    res
+      .status(StatusCodes.CREATED)
+      // .json(test);
+      .json({ message: 'Recipe has been successfully created' });
   }
 }
 

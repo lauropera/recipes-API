@@ -22,7 +22,7 @@ interface IRecipe {
   createdAt: Date;
 }
 
-type IRecipeCreation = Omit<IRecipe, 'id'>;
+type IRecipeCreation = Omit<IRecipe, 'id | createdAt | chefId | categoryId'>;
 
 class Recipe extends Model<IRecipe, IRecipeCreation> {
   declare id: number;
