@@ -1,5 +1,6 @@
 import { STRING, DATE, INTEGER, Model } from 'sequelize';
 import db from '.';
+
 import RecipeTag from './RecipeTag';
 import Tag from './Tag';
 import RecipeStep from './RecipeStep';
@@ -22,7 +23,7 @@ interface IRecipe {
   createdAt: Date;
 }
 
-type IRecipeCreation = Omit<IRecipe, 'id | createdAt | chefId | categoryId'>;
+type IRecipeCreation = Omit<IRecipe, 'id' | 'createdAt'>;
 
 class Recipe extends Model<IRecipe, IRecipeCreation> {
   declare id: number;
