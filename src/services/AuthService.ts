@@ -4,7 +4,7 @@ import HttpException from '../utils/HttpException';
 import User, { IUserCreation } from '../database/models/User';
 import { LoginSchema, RegisterSchema } from './utils/validations/schemas';
 import ILogin from '../interfaces/ILogin';
-import validator from './utils/validations/validator';
+import schemaValidator from './utils/validations/schemaValidator';
 import Token from './utils/token/TokenUtils';
 
 class AuthService {
@@ -19,7 +19,7 @@ class AuthService {
   }
 
   async register(credentials: IUserCreation): Promise<void> {
-    validator<IUserCreation>(
+    schemaValidator<IUserCreation>(
       credentials,
       RegisterSchema,
       StatusCodes.BAD_REQUEST,
@@ -35,7 +35,7 @@ class AuthService {
   }
 
   async login(credentials: ILogin): Promise<string> {
-    validator<ILogin>(credentials, LoginSchema, StatusCodes.BAD_REQUEST);
+    schemaValidator<ILogin>(credentials, LoginSchema, StatusCodes.BAD_REQUEST);
 
     const { email, password } = credentials;
 
@@ -59,7 +59,12 @@ class AuthService {
   }
 
   async getUserRole(email: string): Promise<string> {
-    const user = (await this._repository.findOne({ where: { email } })) as User;
+    const user = await this._repository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new HttpException(StatusCodes.NOT_FOUND, 'User not found');
+    }
+
     return user.role;
   }
 }
