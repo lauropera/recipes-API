@@ -8,6 +8,11 @@ module.exports = {
       { name: 'Chocolate quente' },
       { name: 'Vegetariana' },
       { name: 'Vegana' },
+      { name: 'Rápida' },
+      { name: 'Micro-ondas' },
+      { name: 'Light' },
+      { name: 'Com foto' },
+      { name: 'Com vídeo' },
     ]);
   },
 
