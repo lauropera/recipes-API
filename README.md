@@ -4,8 +4,6 @@
 
 Essa é uma API de receitas, ondê você pode criar, buscar ou favoritar receitas de outros usuários.
 
-#
-
 <br />
 
 ## ⚙️ Tecnologias
