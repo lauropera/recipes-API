@@ -64,7 +64,7 @@ Recipe.init(
 Recipe.belongsTo(User, { foreignKey: 'chefId', as: 'chef' });
 User.hasMany(Recipe, { foreignKey: 'chefId', as: 'userRecipes' });
 
-Recipe.hasOne(Category, { foreignKey: 'id', as: 'category' });
+Recipe.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
 Category.hasMany(Recipe, { foreignKey: 'categoryId', as: 'recipes' });
 
 Recipe.hasMany(RecipeStep, { foreignKey: 'recipeId', as: 'recipeSteps' });
