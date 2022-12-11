@@ -166,7 +166,7 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
     "servings": 1,
     "videoUrl": "",
     "imageUrl": "",
-    "category": "Bebidas",
+    "category": "Massas",
     "tags": [
         "Macarrão instantâneo"
     ],
@@ -191,6 +191,26 @@ Nessa aplicação é necessário fazer o login com um email e senha. A tabela ab
   <br/ >
 
 • Remove uma receita nos favoritos pelo seu id.
+
+</details>
+
+<br />
+
+### Category
+
+<details>
+  <summary><strong>GET /category</strong></summary>
+  <br/ >
+
+• Traz todas as categorias.
+
+</details>
+
+<details>
+  <summary><strong>GET /category/:id</strong></summary>
+  <br/ >
+
+• Traz todas as receitas relacionadas a categoria pelo seu id.
 
 </details>
 
