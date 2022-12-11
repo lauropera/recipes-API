@@ -21,7 +21,7 @@ class CategoryService {
 
   async getAll(): Promise<ICategory[]> {
     const categories = await this._repository.findAll();
-    return categories;
+    return categories.sort((a, b) => a.id - b.id);
   }
 }
 
