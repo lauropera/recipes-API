@@ -5,6 +5,6 @@ import { categoryController } from './controllerInstances';
 const router = Router();
 
 router.get('/', categoryController.listAll);
-// router.post('/:id', categoryController.listWithRecipes);
+router.get('/:id', categoryController.listRecipes);
 
 export default router;
